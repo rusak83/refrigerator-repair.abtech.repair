@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USA ROI Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+        }
+
+        .inputs-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="number"] {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input[type="text"]:focus,
+        .input-group input[type="number"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .input-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .calculator-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .calculator-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-card.landing {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-card.landing .card-title {
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .metric {
+            margin-bottom: 20px;
+        }
+
+        .metric-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .metric-value {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .metric input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .calculator-card:not(.landing) .metric input[type="range"] {
+            background: #e0e0e0;
+        }
+
+        .calculator-card.landing .metric input[type="range"] {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .calculator-card:not(.landing) .metric input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .calculator-card.landing .metric input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+
+        .result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .calculator-card.landing .result {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .result-label {
+            font-weight: 500;
+        }
+
+        .result-value {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .final-result {
+            background: #ff6b5b;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .calculator-card.landing .final-result {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .final-result span {
+            display: block;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .inputs-section {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .currency {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .calculator-card.landing .currency {
+            color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Compare ROI for Landing Pages & Websites</h1>
+        <p class="subtitle">Move the sliders, change the values and compare the results</p>
+
+        <div class="inputs-section">
+            <div class="input-group">
+                <label>Cost Per Click</label>
+                <input type="number" id="costPerClick" value="0.50" step="0.01" min="0">
+                <div class="range-values">
+                    <span>$0.10</span>
+                    <span>$5.00</span>
+                </div>
+                <input type="range" id="costPerClickSlider" value="0.50" min="0.1" max="5" step="0.1">
+            </div>
+
+            <div class="input-group">
+                <label>Page Visitors</label>
+                <input type="number" id="visitors" value="2000" step="100" min="0">
+                <div class="range-values">
+                    <span>1,000</span>
+                    <span>10,000</span>
+                </div>
+                <input type="range" id="visitorsSlider" value="2000" min="1000" max="10000" step="100">
+            </div>
+
+            <div class="input-group">
+                <label>Customer Lifetime Value</label>
+                <input type="number" id="customerValue" value="5000" step="100" min="0">
+                <div class="range-values">
+                    <span>$500</span>
+                    <span>$50,000</span>
+                </div>
+                <input type="range" id="customerValueSlider" value="5000" min="500" max="50000" step="100">
+            </div>
+        </div>
+
+        <div class="calculator-section">
+            <div class="calculator-card">
+                <h2 class="card-title">Multi-Page Website</h2>
+
+                <div class="metric">
+                    <div class="metric-label">
+                        <span>Leads from Page</span>
+                        <span class="metric-value"><span id="websiteLead">2</span>%</span>
+                    </div>
+                    <input type="range" id="websiteLeadRate" value="2" min="0.1" max="3" step="0.1">
+                </div>
+
+                <div class="result">
+                    <span class="result-label">Leads from Page</span>
+                    <span class="result-value"><span id="websiteLeadCount">40</span> people</span>
+                </div>
+
+                <div class="metric">
+                    <div class="metric-label">
+                        <span>Conversion from Lead to Sale</span>
+                        <span class="metric-value"><span id="websiteSaleRate">20</span>%</span>
+                    </div>
+                    <input type="range" id="websiteSaleRate" value="20" min="0" max="100" step="1">
+                </div>
+
+                <div class="result">
+                    <span class="result-label">Sales</span>
+                    <span class="result-value"><span id="websiteSaleCount">8</span> sales</span>
+                </div>
+
+                <div class="result">
+                    <span class="result-label">Ad Spend</span>
+                    <span class="result-value"><span class="currency">$</span><span id="websiteAdSpend">1000</span></span>
+                </div>
+
+                <div class="final-result">
+                    <span class="currency">$</span><span id="websiteRevenue">40000</span>
+                    <span>Total Revenue from Sales</span>
+                </div>
+            </div>
+
+            <div class="calculator-card landing">
+                <h2 class="card-title">Landing Page</h2>
+
+                <div class="metric">
+                    <div class="metric-label">
+                        <span>Leads from Page</span>
+                        <span class="metric-value"><span id="landingLead">5</span>%</span>
+                    </div>
+                    <input type="range" id="landingLeadRate" value="5" min="0.1" max="3" step="0.1">
+                </div>
+
+                <div class="result">
+                    <span class="result-label">Leads from Page</span>
+                    <span class="result-value"><span id="landingLeadCount">100</span> people</span>
+                </div>
+
+                <div class="metric">
+                    <div class="metric-label">
+                        <span>Conversion from Lead to Sale</span>
+                        <span class="metric-value"><span id="landingSaleRate">20</span>%</span>
+                    </div>
+                    <input type="range" id="landingSaleRate" value="20" min="0" max="100" step="1">
+                </div>
+
+                <div class="result">
+                    <span class="result-label">Sales</span>
+                    <span class="result-value"><span id="landingSaleCount">20</span> sales</span>
+                </div>
+
+                <div class="result">
+                    <span class="result-label">Ad Spend</span>
+                    <span class="result-value"><span class="currency">$</span><span id="landingAdSpend">1000</span></span>
+                </div>
+
+                <div class="final-result">
+                    <span class="currency">$</span><span id="landingRevenue">100000</span>
+                    <span>Total Revenue from Sales</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const costPerClickInput = document.getElementById('costPerClick');
+        const costPerClickSlider = document.getElementById('costPerClickSlider');
+        const visitorsInput = document.getElementById('visitors');
+        const visitorsSlider = document.getElementById('visitorsSlider');
+        const customerValueInput = document.getElementById('customerValue');
+        const customerValueSlider = document.getElementById('customerValueSlider');
+
+        const websiteLeadRateSlider = document.getElementById('websiteLeadRate');
+        const websiteSaleRateSlider = document.getElementById('websiteSaleRate');
+
+        const landingLeadRateSlider = document.getElementById('landingLeadRate');
+        const landingSaleRateSlider = document.getElementById('landingSaleRate');
+
+        costPerClickInput.addEventListener('input', function() {
+            costPerClickSlider.value = this.value;
+            calculate();
+        });
+
+        costPerClickSlider.addEventListener('input', function() {
+            costPerClickInput.value = parseFloat(this.value).toFixed(2);
+            calculate();
+        });
+
+        visitorsInput.addEventListener('input', function() {
+            visitorsSlider.value = this.value;
+            calculate();
+        });
+
+        visitorsSlider.addEventListener('input', function() {
+            visitorsInput.value = this.value;
+            calculate();
+        });
+
+        customerValueInput.addEventListener('input', function() {
+            customerValueSlider.value = this.value;
+            calculate();
+        });
+
+        customerValueSlider.addEventListener('input', function() {
+            customerValueInput.value = this.value;
+            calculate();
+        });
+
+        websiteLeadRateSlider.addEventListener('input', calculate);
+        websiteSaleRateSlider.addEventListener('input', calculate);
+
+        landingLeadRateSlider.addEventListener('input', calculate);
+        landingSaleRateSlider.addEventListener('input', calculate);
+
+        function formatCurrency(value) {
+            return Math.round(value).toLocaleString('en-US');
+        }
+
+        function calculate() {
+            const costPerClick = parseFloat(costPerClickInput.value) || 0;
+            const visitors = parseInt(visitorsInput.value) || 0;
+            const customerValue = parseInt(customerValueInput.value) || 0;
+
+            const websiteLeadRate = parseFloat(websiteLeadRateSlider.value) / 100;
+            const websiteLeads = Math.round(visitors * websiteLeadRate);
+            const websiteSaleRate = parseFloat(websiteSaleRateSlider.value) / 100;
+            const websiteSales = Math.round(websiteLeads * websiteSaleRate);
+            const websiteAdSpend = Math.round(visitors * costPerClick);
+            const websiteRevenue = websiteSales * customerValue;
+
+            const landingLeadRate = parseFloat(landingLeadRateSlider.value) / 100;
+            const landingLeads = Math.round(visitors * landingLeadRate);
+            const landingSaleRate = parseFloat(landingSaleRateSlider.value) / 100;
+            const landingSales = Math.round(landingLeads * landingSaleRate);
+            const landingAdSpend = Math.round(visitors * costPerClick);
+            const landingRevenue = landingSales * customerValue;
+
+            document.getElementById('websiteLead').textContent = websiteLeadRateSlider.value;
+            document.getElementById('websiteLeadCount').textContent = websiteLeads;
+            document.getElementById('websiteSaleRate').textContent = websiteSaleRateSlider.value;
+            document.getElementById('websiteSaleCount').textContent = websiteSales;
+            document.getElementById('websiteAdSpend').textContent = formatCurrency(websiteAdSpend);
+            document.getElementById('websiteRevenue').textContent = formatCurrency(websiteRevenue);
+
+            document.getElementById('landingLead').textContent = landingLeadRateSlider.value;
+            document.getElementById('landingLeadCount').textContent = landingLeads;
+            document.getElementById('landingSaleRate').textContent = landingSaleRateSlider.value;
+            document.getElementById('landingSaleCount').textContent = landingSales;
+            document.getElementById('landingAdSpend').textContent = formatCurrency(landingAdSpend);
+            document.getElementById('landingRevenue').textContent = formatCurrency(landingRevenue);
+        }
+
+        calculate();
+    </script>
+</body>
+</html>
