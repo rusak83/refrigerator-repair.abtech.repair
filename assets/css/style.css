@@ -147,7 +147,7 @@ a:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 36px;
-  align-items: center;
+  align-items: start;
 }
 
 .hero-copy h1 {
