@@ -176,6 +176,7 @@ a:hover {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .trust-points {
