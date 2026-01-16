@@ -282,10 +282,20 @@ a:hover {
   background: var(--sand);
 }
 
+.section.frost {
+  background: linear-gradient(180deg, #f4f7fd 0%, #eef3fb 100%);
+}
+
 .section-header {
   text-align: center;
   margin: 0 auto 36px;
   max-width: 640px;
+}
+
+.section-header.left {
+  text-align: left;
+  margin: 0 0 24px;
+  max-width: none;
 }
 
 .section-header h2 {
@@ -314,6 +324,55 @@ a:hover {
 
 .card h3 {
   margin-top: 0;
+}
+
+.step-card {
+  position: relative;
+  padding: 24px;
+}
+
+.step-number {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 32px;
+  font-weight: 700;
+  color: rgba(10, 37, 64, 0.12);
+}
+
+.feature-panel {
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.08), rgba(10, 37, 64, 0.05));
+  border-radius: 22px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+.feature-panel .card {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.feature-head {
+  max-width: 720px;
+}
+
+.service-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.service-callout {
+  background: rgba(10, 37, 64, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.service-callout .btn {
+  margin-top: 12px;
 }
 
 .link-arrow {
