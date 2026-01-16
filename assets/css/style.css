@@ -179,6 +179,34 @@ a:hover {
   margin-top: 10px;
 }
 
+.hero-info {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.hero-info-item {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 16px 30px rgba(6, 24, 43, 0.18);
+}
+
+.hero-info-item h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: var(--white);
+}
+
+.hero-info-item p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.5;
+}
+
 .trust-points {
   list-style: none;
   padding: 0;
